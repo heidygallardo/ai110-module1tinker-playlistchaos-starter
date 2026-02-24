@@ -1,3 +1,13 @@
+# TF WEEKLY TASK SUMMARY 
+
+The summary should be 5–7 sentences covering:
+
+The core concept students needed to understand
+Where students are most likely to struggle
+Where AI was helpful vs misleading
+One way they would guide a student without giving the answer
+
+
 # Playlist Chaos
 
 Your AI assistant tried to build a smart playlist generator. The app runs, but some of the behavior is unpredictable. Your task is to explore the app, investigate the code, and use an AI assistant to debug and improve it.
