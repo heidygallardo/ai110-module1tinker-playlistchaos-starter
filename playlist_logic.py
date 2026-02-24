@@ -164,16 +164,16 @@ def search_songs(
         return songs
 
     # normalize query for case-insensitive search and trim whitespace at start and end (not in between) 
-    q = query.lower().strip()
+    normalized_query = query.lower().strip()
     filtered: List[Song] = []
 
     for song in songs:
 
         # get the value of the artist field, convert to string, lowecase and handles missing values by defaulting to empty string
-        value = str(song.get(field, "")).lower()
+        field_value = str(song.get(field, "")).lower()
 
         # FIX --> check if query is substring of the value for partial matches
-        if value and q in value:
+        if field_value and normalized_query in field_value:
             filtered.append(song)
 
     return filtered
