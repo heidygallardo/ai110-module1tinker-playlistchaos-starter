@@ -75,10 +75,13 @@ def classify_song(song: Song, profile: Dict[str, object]) -> str:
     # FIX BUG 1: case-insensitive check for chill keywords in title
     is_chill_keyword = any(k in title.lower() for k in chill_keywords)
 
-    if genre == favorite_genre or energy >= hype_min_energy or is_hype_keyword:
-        return "Hype"
+    # updated checks so chill conditions are evaluated first, then hype, then mixed as default
     if energy <= chill_max_energy or is_chill_keyword:
         return "Chill"
+    
+    if genre == favorite_genre or energy >= hype_min_energy or is_hype_keyword:
+        return "Hype"
+    
     return "Mixed"
 
 
