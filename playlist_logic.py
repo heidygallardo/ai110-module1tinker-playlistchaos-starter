@@ -72,7 +72,7 @@ def classify_song(song: Song, profile: Dict[str, object]) -> str:
 
     is_hype_keyword = any(k in genre for k in hype_keywords)
 
-    # FIX: case-insensitive check for chill keywords in title
+    # FIX BUG 1: case-insensitive check for chill keywords in title
     is_chill_keyword = any(k in title.lower() for k in chill_keywords)
 
     if genre == favorite_genre or energy >= hype_min_energy or is_hype_keyword:
@@ -118,14 +118,14 @@ def compute_playlist_stats(playlists: PlaylistMap) -> Dict[str, object]:
     chill = playlists.get("Chill", [])
     mixed = playlists.get("Mixed", [])
 
-    # FIX: get len of all songs for ratio calculation, not just hype
+    # FIX BUG 2: get len of all songs for ratio calculation, not just hype
     total = len(all_songs)
     hype_ratio = len(hype) / total if total > 0 else 0.0
 
     avg_energy = 0.0
     if all_songs:
 
-        # FIX: calculate average energy across all songs, not just hype
+        # FIX BUG 3: calculate average energy across all songs, not just hype
         total_energy = sum(song.get("energy", 0) for song in all_songs)
         avg_energy = total_energy / len(all_songs)
 
@@ -167,7 +167,7 @@ def search_songs(
     """Return songs matching the query on a given field."""
     if not query:
         return songs
-
+    
     # normalize query for case-insensitive search and trim whitespace at start and end (not in between) 
     normalized_query = query.lower().strip()
     filtered: List[Song] = []
@@ -177,7 +177,7 @@ def search_songs(
         # get the value of the artist field, convert to string, lowecase and handles missing values by defaulting to empty string
         field_value = str(song.get(field, "")).lower()
 
-        # FIX --> check if query is substring of the value for partial matches
+        # FIXED BUG 4 --> check if query is substring of the value for partial matches
         if field_value and normalized_query in field_value:
             filtered.append(song)
 
@@ -203,6 +203,9 @@ def random_choice_or_none(songs: List[Song]) -> Optional[Song]:
     """Return a random song or None."""
     import random
 
+    if not songs:
+        return None 
+    
     return random.choice(songs)
 
 
